@@ -3,6 +3,7 @@ import { DomainEvent } from "../../shared/domain/bus/DomainEvent";
 type VideoPublishedDomainEventAttributes = {
   readonly title: string;
   readonly description: string;
+  readonly authorEmail: string;
 };
 
 export class VideoPublishedDomainEvent extends DomainEvent {
@@ -10,11 +11,13 @@ export class VideoPublishedDomainEvent extends DomainEvent {
 
   readonly title: string;
   readonly description: string;
+  readonly authorEmail: string;
 
   constructor({
     aggregateId,
     title,
     description,
+    authorEmail,
     eventId,
     occurredOn,
   }: {
@@ -22,6 +25,7 @@ export class VideoPublishedDomainEvent extends DomainEvent {
     eventId?: string;
     title: string;
     description: string;
+    authorEmail: string;
     occurredOn?: Date;
   }) {
     super({
@@ -32,13 +36,15 @@ export class VideoPublishedDomainEvent extends DomainEvent {
     });
     this.title = title;
     this.description = description;
+    this.authorEmail = authorEmail;
   }
 
   toPrimitives(): VideoPublishedDomainEventAttributes {
-    const { title, description } = this;
+    const { title, description, authorEmail } = this;
     return {
       title,
       description,
+      authorEmail
     };
   }
 
@@ -53,6 +59,7 @@ export class VideoPublishedDomainEvent extends DomainEvent {
       aggregateId,
       title: attributes.title,
       description: attributes.description,
+      authorEmail: attributes.authorEmail,
       eventId,
       occurredOn,
     });

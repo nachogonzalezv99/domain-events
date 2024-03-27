@@ -6,6 +6,10 @@ import { InMemoryVideoRepository } from "./video/infraestructure/InMemoryVideoRe
 import { IncrementVideoCounterOnVideoPublished } from "./videoCounter/application/IncrementVideoCounterOnVideoPublished";
 import { VideoCounterIncrementer } from "./videoCounter/application/VideoCounterIncrementer";
 import { InMemoryVideoCounterRepository } from "./videoCounter/infraestructure/InMemoryVideoCounterRepository";
+import { VideoPublishedEmailSender } from "./email/application/VideoPublishedEmailSender";
+import { ConsoleLogEmailClient } from "./email/infraestructure/ConsoleLogEmailClient";
+import { VideoPublishedDomainEvent } from "./video/domain/VideoPublishedDomainEvent";
+import { SendEmailOnVideoPublished } from "./email/application/SendEmailOnVideoPublished";
 
 const app = express();
 
@@ -23,10 +27,14 @@ const videoCountSubscriber = new VideoCounterIncrementer(
   uuidGenerator,
   videoCounterRepository
 );
-const videoCountIncrementer = new IncrementVideoCounterOnVideoPublished(
+const videoCountIncrementerEvent= new IncrementVideoCounterOnVideoPublished(
   videoCountSubscriber
 );
-eventBus.addSubscribers([videoCountIncrementer]);
+
+const emailClient = new ConsoleLogEmailClient()
+const emailSender = new VideoPublishedEmailSender(emailClient)
+const emailSendDomainEvent = new SendEmailOnVideoPublished(emailSender)
+eventBus.addSubscribers([videoCountIncrementerEvent, emailSendDomainEvent]);
 
 app.post("/videos", async () => {
   await videoPublisher.run("Titulo 1", "Descripción");

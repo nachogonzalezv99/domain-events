@@ -25,6 +25,7 @@ export class Video extends AggregateRoot {
         aggregateId: newVideo.id,
         title: newVideo.title,
         description: newVideo.description,
+        authorEmail: "nacho.99@live.com"
       })
     );
 
