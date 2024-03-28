@@ -1,3 +1,3 @@
-export interface IUuidGenerator {
-  generate(): string;
+export abstract class UuidGenerator {
+  abstract generate(): string;
 }

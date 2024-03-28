@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
-import { IUuidGenerator } from "../domain/IUuidGenerator";
+import { UuidGenerator } from "../domain/IUuidGenerator";
 
-export class V4UuidGenerator implements IUuidGenerator {
+export class V4UuidGenerator implements UuidGenerator {
   generate(): string {
     return v4();
   }

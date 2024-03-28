@@ -7,7 +7,7 @@ type VideoPublishedDomainEventAttributes = {
 };
 
 export class VideoPublishedDomainEvent extends DomainEvent {
-  static readonly EVENT_NAME = "vide.published";
+  static readonly EVENT_NAME = "codely.shop.video.published";
 
   readonly title: string;
   readonly description: string;

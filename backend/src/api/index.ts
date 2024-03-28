@@ -1,43 +1,16 @@
+import "reflect-metadata";
+
 import express from "express";
-import { InMemoryAsyncEventBus } from "./shared/infraestructure/InMemoryEventBus";
-import { V4UuidGenerator } from "./shared/infraestructure/V4UuidGenerator";
+import { container } from "./shared/infraestructure/dependencyInjection/diod.config";
 import { VideoPublisher } from "./video/application/VideoPublisher";
-import { InMemoryVideoRepository } from "./video/infraestructure/InMemoryVideoRepository";
-import { IncrementVideoCounterOnVideoPublished } from "./videoCounter/application/IncrementVideoCounterOnVideoPublished";
-import { VideoCounterIncrementer } from "./videoCounter/application/VideoCounterIncrementer";
-import { InMemoryVideoCounterRepository } from "./videoCounter/infraestructure/InMemoryVideoCounterRepository";
-import { VideoPublishedEmailSender } from "./email/application/VideoPublishedEmailSender";
-import { ConsoleLogEmailClient } from "./email/infraestructure/ConsoleLogEmailClient";
-import { VideoPublishedDomainEvent } from "./video/domain/VideoPublishedDomainEvent";
-import { SendEmailOnVideoPublished } from "./email/application/SendEmailOnVideoPublished";
 
 const app = express();
 
-const uuidGenerator = new V4UuidGenerator();
-const videoRepository = new InMemoryVideoRepository();
-const videoCounterRepository = new InMemoryVideoCounterRepository();
-const eventBus = new InMemoryAsyncEventBus();
-const videoPublisher = new VideoPublisher(
-  uuidGenerator,
-  videoRepository,
-  eventBus
-);
-
-const videoCountSubscriber = new VideoCounterIncrementer(
-  uuidGenerator,
-  videoCounterRepository
-);
-const videoCountIncrementerEvent= new IncrementVideoCounterOnVideoPublished(
-  videoCountSubscriber
-);
-
-const emailClient = new ConsoleLogEmailClient()
-const emailSender = new VideoPublishedEmailSender(emailClient)
-const emailSendDomainEvent = new SendEmailOnVideoPublished(emailSender)
-eventBus.addSubscribers([videoCountIncrementerEvent, emailSendDomainEvent]);
-
-app.post("/videos", async () => {
+app.post("/videos", async (_, req) => {
+  const videoPublisher = container.get(VideoPublisher);
   await videoPublisher.run("Titulo 1", "Descripción");
+
+  req.json({message: "Video created"})
 });
 
 app.listen(3000, () => {

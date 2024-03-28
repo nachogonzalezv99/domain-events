@@ -1,11 +1,14 @@
-import { IUuidGenerator } from "../../shared/domain/IUuidGenerator";
-import { IVideoCounterRepository } from "../domain/IVideoCounterRepository";
-import { VideoCounter } from "../domain/VideoCounter";
 
+import { Service } from "diod";
+import { UuidGenerator } from "../../shared/domain/IUuidGenerator";
+import { VideoCounter } from "../domain/VideoCounter";
+import { VideoCounterRepository } from "../domain/VideoCounterRepository";
+
+@Service()
 export class VideoCounterIncrementer {
   constructor(
-    private readonly uuidGenerator: IUuidGenerator,
-    private readonly repository: IVideoCounterRepository
+    private readonly uuidGenerator: UuidGenerator,
+    private readonly repository: VideoCounterRepository
   ) {}
 
   async run(id: string) {

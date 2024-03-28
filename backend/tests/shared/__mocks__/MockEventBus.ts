@@ -1,6 +1,6 @@
 import { DomainEvent } from "../../../src/api/shared/domain/bus/DomainEvent";
 import { DomainEventSubscriber } from "../../../src/api/shared/domain/bus/IDomainEventSubscriber";
-import { EventBus } from "../../../src/api/shared/domain/bus/IEventBus";
+import { EventBus } from "../../../src/api/shared/domain/bus/EventBus";
 
 
 export default class EventBusMock implements EventBus {

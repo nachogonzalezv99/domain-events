@@ -1,13 +1,15 @@
-import { IUuidGenerator } from "../../shared/domain/IUuidGenerator";
-import { IEventBus } from "../../shared/domain/bus/IEventBus";
-import { IVideoRepository } from "../domain/IVideoRepository";
+import { Service } from "diod";
+import { UuidGenerator } from "../../shared/domain/IUuidGenerator";
+import { EventBus } from "../../shared/domain/bus/EventBus";
 import { Video } from "../domain/Video";
+import { VideoRepository } from "../domain/VideoRepository";
 
+@Service()
 export class VideoPublisher {
   constructor(
-    private readonly uuidGenerator: IUuidGenerator,
-    private readonly repository: IVideoRepository,
-    private readonly eventBus: IEventBus
+    private readonly uuidGenerator: UuidGenerator,
+    private readonly repository: VideoRepository,
+    private readonly eventBus: EventBus
   ) {}
 
   async run(title: string, description: string) {

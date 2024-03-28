@@ -1,9 +1,11 @@
 import { EventEmitter } from "stream";
 import { DomainEvent } from "../../domain/bus/DomainEvent";
-import { IEventBus } from "../../domain/bus/IEventBus";
+import { EventBus } from "../../domain/bus/EventBus";
 import { IDomainEventSubscriber } from "../../domain/bus/IDomainEventSubscriber";
+import { Service } from "diod";
 
-export class InMemoryAsyncEventBus extends EventEmitter implements IEventBus {
+@Service()
+export class InMemoryAsyncEventBus extends EventEmitter implements EventBus {
   async publish(events: DomainEvent[]): Promise<void> {
     events.map((event) => this.emit(event.eventName, event));
   }
