@@ -6,7 +6,7 @@ import {
   Middleware,
 } from "routing-controllers";
 import { DomainError } from "../../../contexts/platform/shared/domain/DomainError";
-import { Logger } from "../../../contexts/platform/shared/domain/logger/Logger";
+import { Logger } from "../../../contexts/platform/shared/domain/observability/Logger";
 
 @Service()
 @Middleware({ type: "after" })
@@ -25,9 +25,9 @@ export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
     const logError = this.toLogError(originalError);
 
     const errorMsg = `${logError.message}: ${logError.stack}`;
-    const errorTitle = `[user-id: ${req /* .user.id */}] ${logError.name}`;
+    // const errorTitle = `[user-id: ${req.user.id}] ${logError.name}`;
 
-    this.logger.error(errorTitle, errorMsg);
+    this.logger.error(errorMsg);
   }
 
   private toReponseError(originalError: Error): HttpError {

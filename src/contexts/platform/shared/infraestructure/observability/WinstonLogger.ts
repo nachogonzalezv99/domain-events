@@ -1,9 +1,17 @@
 import winston from "winston";
 import { env } from "../../../../../apps/api/env";
-import { Logger } from "../../domain/logger/Logger";
+import { Logger } from "../../domain/observability/Logger";
 
 export class WinstonLogger implements Logger {
-  error(title: string, message: string) {
+  info(message: string): void {
+    
+  }
+
+  warning(message: string): void {
+    
+  }
+  
+  error(message: string) {
     this.integrateWithConsole();
     this.integrateWithFile();
 
@@ -18,6 +26,8 @@ export class WinstonLogger implements Logger {
     // logger.error('Error message');
 
   }
+
+
 
   private integrateWithConsole(): void {
     winston.add(

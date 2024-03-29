@@ -14,11 +14,11 @@ import { VideoCounterRepository } from "../../../videoCounter/domain/VideoCounte
 import { InMemoryVideoCounterRepository } from "../../../videoCounter/infraestructure/InMemoryVideoCounterRepository";
 import { UuidGenerator } from "../../domain/IUuidGenerator";
 import { EventBus } from "../../domain/bus/EventBus";
-import { Logger } from "../../domain/logger/Logger";
+import { Logger } from "../../domain/observability/Logger";
 import { V4UuidGenerator } from "../V4UuidGenerator";
 import { RabbitMqConnection } from "../bus/rabbitMq/RabbitMqConnection";
 import { RabbitMqEventBus } from "../bus/rabbitMq/RabbitMqEventBus";
-import { WinstonLogger } from "../logger/WinstonLogger";
+import { WinstonLogger } from "../observability/WinstonLogger";
 import { InMemoryAsyncEventBus } from "../bus/InMemoryAsyncEventBus";
 import { IDomainEventSubscriber } from "../../domain/bus/IDomainEventSubscriber";
 import { DomainEvent } from "../../domain/bus/DomainEvent";
